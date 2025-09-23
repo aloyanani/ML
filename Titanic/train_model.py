@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score, precision_score
 
 
 train_data = pd.read_csv("Titanic/Datasets/train_preprocessed.csv")
@@ -30,6 +30,12 @@ y_pred_classifier = rf_classifier.predict(X_test)
 # Evaluate the model
 accuracy = accuracy_score(y_test, y_pred_classifier)
 print(f"Random Forest Classifier Accuracy: {accuracy}")
+
+f1 = f1_score(y_test, y_pred_classifier) 
+print(f"F1 Score : {f1}")
+
+precision = precision_score(y_test, y_pred_classifier)
+print(f"Precision Score: {precision}")
 
 predictions = rf_classifier.predict(test_data)
 

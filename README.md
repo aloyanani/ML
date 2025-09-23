@@ -21,6 +21,9 @@ This repository contains solutions to popular machine learning tasks.
 ## Results
 
 - Best accuracy: 85%
+- F1 Score : 0.8205
+- Precision Score: 0.8571
+- Kaggle submission score: 0.76076
 - Model used: Random Forest
 
 ## Credits
