@@ -16,7 +16,7 @@ X = train_data.drop('Survived', axis=1)
 Y = train_data['Survived']
 
 # Splitting data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.17, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.14, random_state=42)
 
 # Create a Random Forest Classifier model
 rf_classifier = RandomForestClassifier(n_estimators=100, max_depth=9, random_state=42) # 100 trees in the forest
@@ -40,6 +40,6 @@ print(f"Precision Score: {precision}")
 predictions = rf_classifier.predict(test_data)
 
 output = pd.DataFrame({'PassengerId': Passenger_id, 'Survived': predictions})
-output.to_csv('submission.csv', index=False)
+output.to_csv('Titanic/submission.csv', index=False)
 
 
