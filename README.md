@@ -2,7 +2,7 @@
 
 This repository contains solutions to popular machine learning tasks.
 
-## Titanic - Machine Learning from Disaster
+## 1. Titanic - Machine Learning from Disaster
 
 (https://www.kaggle.com/competitions/titanic)
 
@@ -29,3 +29,23 @@ This repository contains solutions to popular machine learning tasks.
 ## Credits
 
 - Titanic dataset from Kaggle
+
+
+## 2. MNIST Classificaition
+
+## Folder Structure
+
+- Model: Convolutional Neural Network (CNN)
+- Architecture :  3 convolutional layers with ReLU and MaxPooling
+                    Flatten + Linear layer to output 10 classes
+- Optimizer : Adam
+- Loss function : CrossEntropyLoss
+
+## Results
+
+- F1 Score : 0.9838
+- Precision Score: 9842
+
+## Credits
+
+- MNIST dataset 
