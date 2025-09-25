@@ -55,7 +55,7 @@ def train_model(model, train_loader, optimizer, loss_f, device, epochs=10):
 
     # Save model after training
     torch.save(model.state_dict(), "mnist_cnn.pth")
-    print("Model saved as mnist_cnn.pth")
+    print("Model saved as mnist_cnn.pth..")
 
 
 def load_images(filepath):
