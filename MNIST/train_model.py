@@ -60,7 +60,9 @@ def train_model(model, train_loader, optimizer, loss_f, device, epochs=10):
 
 def load_images(filepath):
     with open(filepath, 'rb') as f:
+        # Read header to know: how many images and size of each image
         magic, num, rows, cols = struct.unpack(">IIII", f.read(16))
+        # Read all pixel values and reshape into (num_images, 1, rows, cols)
         data = np.frombuffer(f.read(), dtype=np.uint8).reshape(num, 1, rows, cols)
         return data.astype(np.float32) / 255.0  # normalize
 
