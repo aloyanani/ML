@@ -5,6 +5,10 @@ from torch import nn
 import torch.nn.functional as F
 import torch.optim as optim
 from sklearn.metrics import f1_score, precision_score
+import struct
+import numpy as np
+from torch.utils.data import TensorDataset, DataLoader
+
 
 
 # Define a CNN model
@@ -54,6 +58,17 @@ def train_model(model, train_loader, optimizer, loss_f, device, epochs=10):
     print("Model saved as mnist_cnn.pth")
 
 
+def load_images(filepath):
+    with open(filepath, 'rb') as f:
+        magic, num, rows, cols = struct.unpack(">IIII", f.read(16))
+        data = np.frombuffer(f.read(), dtype=np.uint8).reshape(num, 1, rows, cols)
+        return data.astype(np.float32) / 255.0  # normalize
+
+def load_labels(filepath):
+    with open(filepath, 'rb') as f:
+        magic, num = struct.unpack(">II", f.read(8))
+        labels = np.frombuffer(f.read(), dtype=np.uint8)
+        return labels
 
 
 def main():
@@ -61,21 +76,38 @@ def main():
     print("Using device:", device)
     
 
-    # Load the test dataset# Define transformations to apply to the images
-    transform = transforms.Compose([
-        transforms.ToTensor(),  # Convert images to PyTorch tensors
-        transforms.Normalize((0.1307,), (0.3081,)) # Normalize the pixel values
-    ])
+    # # Load the test dataset# Define transformations to apply to the images
+    # transform = transforms.Compose([
+    #     transforms.ToTensor(),  # Convert images to PyTorch tensors
+    #     transforms.Normalize((0.1307,), (0.3081,)) # Normalize the pixel values
+    # ])
 
-    # Load the training dataset
-    train_dataset = torchvision.datasets.MNIST(root='./data', train=True, download=True, transform=transform)
-    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
+    # # Load the training dataset
+    # train_dataset = torchvision.datasets.MNIST(root='./data', train=True, download=True, transform=transform)
+    # train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
 
+   # Paths
+    training_images_filepath = r"dataset/train-images-idx3-ubyte\train-images-idx3-ubyte"
+    training_labels_filepath = r"dataset/train-labels-idx1-ubyte\train-labels-idx1-ubyte"
 
+    # Load numpy arrays
+    train_images = load_images(training_images_filepath)
+    train_labels = load_labels(training_labels_filepath)
+
+    # Convert to tensors
+    train_images_tensor = torch.tensor(train_images, dtype=torch.float32)
+    train_labels_tensor = torch.tensor(train_labels, dtype=torch.long)
+
+    # Use TensorDataset
+    train_dataset = TensorDataset(train_images_tensor, train_labels_tensor)
+    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+
+    # Model
     model = ImageClassifier().to(device)
     loss_f = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
-    
+
+    # Train
     train_model(model, train_loader, optimizer, loss_f, device, epochs=10)
     
 
